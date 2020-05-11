@@ -1,6 +1,11 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 import './App.css';
 import UserTable from './components/UserTable';
+import NavBar from './components/NavBar';
+
+
 
 function App() {
   const testData = [
@@ -237,7 +242,16 @@ function App() {
   ];
 
   return (
-    <UserTable users={testData}></UserTable>
+    <div>
+      <NavBar></NavBar>
+      <Container maxWidth="xl">
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <UserTable users={testData}></UserTable>
+          </Grid>      
+        </Grid>
+      </Container>
+    </div>
   );
 }
 
