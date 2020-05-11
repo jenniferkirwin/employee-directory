@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import MaterialTable from 'material-table';
 import API from '../utilities/API';
 
@@ -15,23 +15,35 @@ export default function UserTable({users}) {
 
   React.useEffect(() => {
     API.getEmployees()
-    .then(({data}) => console.log(data))
+    .then(({data}) => dispatch({type: "foundUsers", resData: data}))
     .catch(err => console.log(err));
   }, []);
 
+  const [userData, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case "foundUsers":
+        return {
+          ...state,
+          foundUserData: action.resData
+        }
+      default:
+        return state;
+    }
+  }, {foundUserData: []});
+
   return (
     <MaterialTable
-    title = "Employee Directory"
     columns = {
       headerCells
     }
     data = {
-      users
+      userData.foundUserData
     }        
     options = {{
       search: true,
       debounceInterval: 500,
-      draggable: false      
+      draggable: false,
+      showTitle: false   
     }}
   />
   );
